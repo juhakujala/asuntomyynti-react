@@ -30,7 +30,17 @@ const ApartmentRow = ({ apartment }: { apartment: Apartment }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const { apartment_number, apartment_structure, application_url, floor, living_area, sales_price } = apartment;
+  const {
+    apartment_number,
+    apartment_structure,
+    application_url,
+    floor,
+    living_area,
+    debt_free_sales_price,
+  } = apartment;
+
+  const calculatedDebtFreeSalesPrice = debt_free_sales_price / 100;
+  const formattedSalesPrice = calculatedDebtFreeSalesPrice.toLocaleString('fi-FI');
 
   return (
     <div className={css.container}>
@@ -59,7 +69,7 @@ const ApartmentRow = ({ apartment }: { apartment: Apartment }) => {
             </div>
             <div className={css.cell} style={{ flex: 1 }}>
               {isMobileSize && <span style={{ flex: 1 }}>{t('SEARCH:free-of-debt-price')}</span>}
-              <span style={{ flex: 1 }}>{sales_price / 100} €</span>
+              <span style={{ flex: 1 }}>{formattedSalesPrice} €</span>
             </div>
           </>
         )}

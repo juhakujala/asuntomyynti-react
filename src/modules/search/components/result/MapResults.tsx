@@ -13,7 +13,8 @@ type Props = {
   closeMap: () => void;
 };
 
-const MAP_URL = 'https://tiles.hel.ninja/styles/hel-osm-bright/{z}/{x}/{y}.png';
+const MAP_TILES_URL =
+  process.env.REACT_APP_MAP_TILES_URL || 'https://tiles.hel.ninja/styles/hel-osm-bright/{z}/{x}/{y}.png';
 
 const MapResults = ({ searchResults, closeMap }: Props) => {
   const { t } = useTranslation();
@@ -114,7 +115,7 @@ const MapResults = ({ searchResults, closeMap }: Props) => {
           </Button>
         </div>
       </header>
-      <div id={'mapid'}>
+      <div id={'asuReactMap'}>
         <MapContainer
           center={getInitialPosition()}
           zoom={12}
@@ -122,10 +123,12 @@ const MapResults = ({ searchResults, closeMap }: Props) => {
             [59.4, 23.8],
             [61.5, 25.8],
           ]}
+          dragging={!L.Browser.mobile}
+          tap={!L.Browser.mobile}
         >
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url={MAP_URL}
+            url={MAP_TILES_URL}
           />
           {searchResults.map((x) => (
             <Marker
