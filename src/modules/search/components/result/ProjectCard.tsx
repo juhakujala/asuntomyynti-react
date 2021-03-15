@@ -121,9 +121,11 @@ const ProjectCard = ({ project, hideImgOnSmallScreen = false, showSearchAlert = 
     url,
   } = project;
 
-  const hasApartments = !!apartments.length;
+  const apartmentsByCurrentLang = apartments.filter((x) => x._language === 'fi');
 
-  const { items, requestSort, sortConfig } = UseSortableData(apartments);
+  const hasApartments = !!apartmentsByCurrentLang.length;
+
+  const { items, requestSort, sortConfig } = UseSortableData(apartmentsByCurrentLang);
   const displayedApartments = items.slice(page * 10 - 10, page * 10);
 
   const fullURL = (path: string) => {
@@ -166,10 +168,10 @@ const ProjectCard = ({ project, hideImgOnSmallScreen = false, showSearchAlert = 
     return <IconSortAscending aria-hidden="true" className={css.sortArrow} />;
   };
 
-  const showPagination = apartments.length > 10;
+  const showPagination = apartmentsByCurrentLang.length > 10;
 
   const renderPaginationButtons = () => {
-    const noOfPages = Math.ceil(apartments.length / 10);
+    const noOfPages = Math.ceil(apartmentsByCurrentLang.length / 10);
     const buttons = [];
 
     buttons.push(
@@ -341,7 +343,7 @@ const ProjectCard = ({ project, hideImgOnSmallScreen = false, showSearchAlert = 
                 variant="supplementary"
                 iconRight={listOpen ? <IconArrowUp aria-hidden="true" /> : <IconArrowDown aria-hidden="true" />}
               >
-                {apartments.length} {t('SEARCH:apartments-available')}
+                {apartmentsByCurrentLang.length} {t('SEARCH:apartments-available')}
               </Button>
             )}
           </div>
